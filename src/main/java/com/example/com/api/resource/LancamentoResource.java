@@ -6,6 +6,7 @@ import com.example.com.api.model.Lancamento;
 import com.example.com.api.repository.LancamentoRepository;
 import com.example.com.api.repository.filter.LancamentoFilter;
 import com.example.com.api.repository.projection.ResumoLancamento;
+import com.example.com.api.service.LancamentoService;
 import com.example.com.api.service.exception.PessoaInexistenteOuInativaException;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -29,7 +30,10 @@ import java.util.List;
 public class LancamentoResource {
 
     @Autowired
-    LancamentoRepository lancamentoRepository;
+    private LancamentoRepository lancamentoRepository;
+
+    @Autowired
+    private LancamentoService lancamentoService;
 
     @Autowired
     private ApplicationEventPublisher publisher;
@@ -59,7 +63,7 @@ public class LancamentoResource {
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA') and hasAuthority('SCOPE_write')")
+    @PreAuthorize("hasAuthority('ROLE_CADASTRAR_CATEGORIA') and hasAuthority('SCOPE_write')")
     public ResponseEntity<Lancamento> criar(
             @Valid @RequestBody Lancamento lancamento,
             HttpServletResponse response
@@ -72,8 +76,20 @@ public class LancamentoResource {
 
     @DeleteMapping("/{codigo}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasAuthority('ROLE_REMOVER_LANCAMENTO')")
     public void remover(@PathVariable Long codigo) {
         lancamentoRepository.deleteById(codigo);
+    }
+
+    @PutMapping("/{codigo}")
+    @PreAuthorize("hasAuthority('ROLE_CADASTRAR_LANCAMENTO')")
+    public ResponseEntity<Lancamento> atualizar(@PathVariable Long codigo, @Valid @RequestBody Lancamento lancamento) {
+        try {
+            Lancamento lancamentoSalvo = lancamentoService.atualizar(codigo, lancamento);
+            return ResponseEntity.ok(lancamentoSalvo);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @ExceptionHandler({ PessoaInexistenteOuInativaException.class })
