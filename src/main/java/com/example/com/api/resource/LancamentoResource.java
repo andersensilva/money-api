@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import com.example.com.api.exceptionHandler.MoneyExceptionHandler.Erro;
 
@@ -36,18 +37,21 @@ public class LancamentoResource {
     private MessageSource messageSource;
 
     @GetMapping
+    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA') and hasAuthority('SCOPE_read')")
     public Page<Lancamento> pesquisar(LancamentoFilter lancamentoFilter, Pageable pageable) {
 
         return lancamentoRepository.filtrar(lancamentoFilter, pageable);
     }
 
     @GetMapping("/{codigo}")
+    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA') and hasAuthority('SCOPE_read')")
     public ResponseEntity<Lancamento> buscarpelocodigo(@PathVariable Long codigo){
         Lancamento lancamento = lancamentoRepository.findById(codigo).get();
         return lancamento != null ? ResponseEntity.ok(lancamento) : ResponseEntity.notFound().build();
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA') and hasAuthority('SCOPE_write')")
     public ResponseEntity<Lancamento> criar(
             @Valid @RequestBody Lancamento lancamento,
             HttpServletResponse response
