@@ -5,6 +5,7 @@ import com.example.com.api.exceptionHandler.MoneyExceptionHandler;
 import com.example.com.api.model.Lancamento;
 import com.example.com.api.repository.LancamentoRepository;
 import com.example.com.api.repository.filter.LancamentoFilter;
+import com.example.com.api.repository.projection.ResumoLancamento;
 import com.example.com.api.service.exception.PessoaInexistenteOuInativaException;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -37,14 +38,21 @@ public class LancamentoResource {
     private MessageSource messageSource;
 
     @GetMapping
-    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA') and hasAuthority('SCOPE_read')")
+    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA')")
     public Page<Lancamento> pesquisar(LancamentoFilter lancamentoFilter, Pageable pageable) {
 
         return lancamentoRepository.filtrar(lancamentoFilter, pageable);
     }
 
+    @GetMapping(params = "resumo")
+    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA')")
+    public Page<ResumoLancamento> resumir(LancamentoFilter lancamentoFilter, Pageable pageable) {
+
+        return lancamentoRepository.resumir(lancamentoFilter, pageable);
+    }
+
     @GetMapping("/{codigo}")
-    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA') and hasAuthority('SCOPE_read')")
+    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA')")
     public ResponseEntity<Lancamento> buscarpelocodigo(@PathVariable Long codigo){
         Lancamento lancamento = lancamentoRepository.findById(codigo).get();
         return lancamento != null ? ResponseEntity.ok(lancamento) : ResponseEntity.notFound().build();

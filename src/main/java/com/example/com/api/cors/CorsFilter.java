@@ -1,5 +1,7 @@
 package com.example.com.api.cors;
 
+import com.example.com.api.config.property.MoneyApiProperty;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -13,6 +15,9 @@ import java.io.IOException;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class CorsFilter implements Filter {
 
+    @Autowired
+    private MoneyApiProperty moneyApiProperty;
+
     private String originPermitida = "http://localhost:8000"; // TODO: configurar para difirentes ambientes
 
     @Override
@@ -22,10 +27,10 @@ public class CorsFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
 
-        response.setHeader("Access-Control-Allow-Origin", originPermitida);
+        response.setHeader("Access-Control-Allow-Origin", moneyApiProperty.getOriginPermitida());
         response.setHeader("Access-Control-Allow-Credentials", "true");
 
-        if("OPTIONS".equals(request.getMethod()) && originPermitida.equals(request.getHeader("Origin"))){
+        if("OPTIONS".equals(request.getMethod()) && moneyApiProperty.getOriginPermitida().equals(request.getHeader("Origin"))){
             response.setHeader("Access-Control-Allow-Methods", "POST, GET, DELETE, PUT, OPTIONS");
             response.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type, Accept");
             response.setHeader("Access-Control-Max-Age", "3600");
