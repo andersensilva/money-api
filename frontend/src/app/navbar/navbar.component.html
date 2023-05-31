@@ -1,0 +1,16 @@
+<nav class="navbar">
+  <div class="container">
+    <div class="grid">
+      <div class="col-12">
+        <a href="javascript:;" class="navbar-toogle" (click)="exibindoMenu = !exibindoMenu"><i class="pi pi-bars"></i></a>
+      </div>
+    </div>
+
+    <ul class="navbar-menu" [hidden] ="!exibindoMenu" >
+      <li class="navbar-usuario">José</li>
+      <li class="navbar-menuitem"><a href="#">Lancamentos</a></li>
+      <li class="navbar-menuitem"><a href="#">Pessoas</a></li>
+      <li class="navbar-menuitem"><a href="#">Loggout</a></li>
+    </ul>
+  </div>
+</nav>
