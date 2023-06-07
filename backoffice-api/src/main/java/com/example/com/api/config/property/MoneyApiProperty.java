@@ -1,5 +1,6 @@
 package com.example.com.api.config.property;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
@@ -8,7 +9,10 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties("money")
 public class MoneyApiProperty {
 
-    private String originPermitida = "http://localhost:8000";
+    @Value("${momey.origin-permitida}")
+    private String urlDefault;
+
+    private String originPermitida = "http://localhost:4200";
     private final Seguranca seguranca = new Seguranca();
 
     public Seguranca getSeguranca() {

@@ -5,8 +5,10 @@ import java.util.Optional;
 
 
 import com.example.com.api.event.RecursoCriadoEvent;
+import com.example.com.api.model.Lancamento;
 import com.example.com.api.model.Pessoa;
 import com.example.com.api.repository.PessoaRepository;
+import com.example.com.api.repository.filter.LancamentoFilter;
 import com.example.com.api.service.PessoaService;
 
 import javax.servlet.http.HttpServletResponse;
@@ -72,8 +74,10 @@ public class PessoaResource {
 
 	@GetMapping
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_PESSOA')")
-	public Page<Pessoa> pesquisar(@RequestParam(required = false, defaultValue = "%") String nome, Pageable pageable) {
+	public Page<Pessoa> pesquisar(@RequestParam(required = false, defaultValue = "") String nome, Pageable pageable) {
 		return pessoaRepository.findByNomeContaining(nome, pageable);
 	}
+
+
 
 }

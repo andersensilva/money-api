@@ -18,7 +18,7 @@ public class CorsFilter implements Filter {
     @Autowired
     private MoneyApiProperty moneyApiProperty;
 
-    private String originPermitida = "http://localhost:8000"; // TODO: configurar para difirentes ambientes
+    private String originPermitida = "http://localhost:4200"; // TODO: configurar para difirentes ambientes
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
