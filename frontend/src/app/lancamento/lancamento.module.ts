@@ -15,6 +15,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -31,6 +32,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
   imports: [
     CommonModule,
     FormsModule,
+    RouterModule,
 
     InputTextModule,
     ButtonModule,

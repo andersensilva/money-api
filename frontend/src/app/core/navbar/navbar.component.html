@@ -8,9 +8,11 @@
 
     <ul class="navbar-menu" [hidden] ="!exibindoMenu" >
       <li class="navbar-usuario">José</li>
-      <li class="navbar-menuitem"><a href="#">Lancamentos</a></li>
-      <li class="navbar-menuitem"><a href="#">Pessoas</a></li>
-      <li class="navbar-menuitem"><a href="#">Loggout</a></li>
+      <li class="navbar-menuitem" routerLinkActive="ativo"><a routerLink="lancamentos">Lancamentos</a>
+
+      </li>
+      <li class="navbar-menuitem" routerLinkActive="ativo"><a routerLink="pessoas">Pessoas</a></li>
+      <li class="navbar-menuitem" ><a href="#">Loggout</a></li>
     </ul>
   </div>
 </nav>

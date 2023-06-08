@@ -9,6 +9,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { ErrorHandlerService } from './error-handler.service';
 import { LancamentoService } from '../lancamento/lancamento.service';
 import { PessoasService } from '../pessoas/pessoas.service';
+import { RouterModule } from '@angular/router';
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -18,6 +19,7 @@ registerLocaleData(localePt, 'pt-BR');
   ],
   imports: [
     CommonModule,
+    RouterModule,
 
     ToastModule,
     ConfirmDialogModule,

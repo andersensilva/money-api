@@ -17,7 +17,7 @@ export class LancamentoService {
 
   lancamentoUrl = 'http://localhost:8082/lancamento'
 
-  token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODYyMDMxMTEsInVzZXJfbmFtZSI6ImFkbWluQGFsZ2Ftb25leS5jb20iLCJhdXRob3JpdGllcyI6WyJST0xFX0NBREFTVFJBUl9DQVRFR09SSUEiLCJST0xFX1BFU1FVSVNBUl9QRVNTT0EiLCJST0xFX1JFTU9WRVJfUEVTU09BIiwiUk9MRV9DQURBU1RSQVJfTEFOQ0FNRU5UTyIsIlJPTEVfUEVTUVVJU0FSX0xBTkNBTUVOVE8iLCJST0xFX1JFTU9WRVJfTEFOQ0FNRU5UTyIsIlJPTEVfQ0FEQVNUUkFSX1BFU1NPQSIsIlJPTEVfUEVTUVVJU0FSX0NBVEVHT1JJQSJdLCJqdGkiOiIwZkxTMndiZTcxRjRWano1bFBlWUN1UkRXT3ciLCJjbGllbnRfaWQiOiJhbmd1bGFyIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.x_11OCZAM8dMBmJGPvJVyLZS8Z1KBVX3_ZDvdPWPXoo'
+  token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODYyMDc4MjQsInVzZXJfbmFtZSI6ImFkbWluQGFsZ2Ftb25leS5jb20iLCJhdXRob3JpdGllcyI6WyJST0xFX0NBREFTVFJBUl9DQVRFR09SSUEiLCJST0xFX1BFU1FVSVNBUl9QRVNTT0EiLCJST0xFX1JFTU9WRVJfUEVTU09BIiwiUk9MRV9DQURBU1RSQVJfTEFOQ0FNRU5UTyIsIlJPTEVfUEVTUVVJU0FSX0xBTkNBTUVOVE8iLCJST0xFX1JFTU9WRVJfTEFOQ0FNRU5UTyIsIlJPTEVfQ0FEQVNUUkFSX1BFU1NPQSIsIlJPTEVfUEVTUVVJU0FSX0NBVEVHT1JJQSJdLCJqdGkiOiJJbFJhNzZUdnkzS1ZlN0trZ1RrTHZTcVU2OXMiLCJjbGllbnRfaWQiOiJhbmd1bGFyIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.1GIxcHKhidPY2G22JpEzRtBKxbVBGjhWUwkv4xmEmVU'
 
   constructor(private http: HttpClient) { }
 
@@ -76,4 +76,44 @@ export class LancamentoService {
       .toPromise()
       .then(response => response);
   }
+
+  edit(codigo: number): Promise<any>{
+    const headers = new HttpHeaders()
+    .append('Authorization', `${this.token}`);
+
+    return firstValueFrom(
+      this.http.get(`${this.lancamentoUrl}/${codigo}`, { headers })
+    ).then(response => {
+      const lancamento = response as Lancamento
+
+      this.converterStringsParaDatas([lancamento])
+
+      return lancamento
+    })
+  }
+
+  atualiza(lancamento: Lancamento): Promise<any>{
+    const headers = new HttpHeaders()
+    .append('Authorization', `${this.token}`)
+    .append('Content-Type', 'application/json');
+
+    return this.http.put(`${this.lancamentoUrl}/${lancamento.codigo}`,
+        JSON.stringify(lancamento), { headers })
+      .toPromise()
+      .then(response => response);
+  }
+
+  private converterStringsParaDatas(lancamentos: Lancamento[]) {
+    for (const lancamento of lancamentos) {
+      let offset = new Date().getTimezoneOffset() * 60000;
+
+      lancamento.dataVencimento = new Date(new Date(lancamento.dataVencimento!).getTime() + offset);
+
+      if (lancamento.dataPagamento) {
+        lancamento.dataPagamento = new Date(new Date(lancamento.dataPagamento).getTime() + offset);
+      }
+    }
+  }
+
+
 }

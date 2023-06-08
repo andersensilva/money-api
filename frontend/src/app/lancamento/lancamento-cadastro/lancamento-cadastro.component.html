@@ -2,7 +2,7 @@
   <form #f="ngForm" autocomplete="off" (ngSubmit)="salvar(f)">
     <div class="grid">
       <div class="col-12">
-        <h1>Novo Lançamento</h1>
+        <h1>{{editado ? 'Edição de' : 'Novo' }} Lançamento</h1>
       </div>
 
       <div class="col-12">
@@ -48,8 +48,8 @@
       </div>
       <div class="col-12">
         <button pButton type="submit" label="Salvar"></button>
-        <button pButton type="button" label="Novo" class="p-button-info"></button>
-        <a href="javascript:;">Voltar para a pesquisa</a>
+        <button pButton type="button" label="Novo" (click)="novo(f)" class="p-button-info"></button>
+        <a routerLink="/lancamentos">Voltar para a pesquisa</a>
       </div>
     </div>
   </form>
