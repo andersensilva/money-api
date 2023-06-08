@@ -1,7 +1,8 @@
 import { PessoasService } from './../pessoas.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { PessoasFiltro } from '../pessoas.service';
-import { LazyLoadEvent } from 'primeng/api';
+import { ConfirmationService, LazyLoadEvent, MessageService } from 'primeng/api';
+import { ErrorHandlerService } from 'src/app/core/error-handler.service';
 
 
 @Component({
@@ -14,8 +15,14 @@ export class PessoaPesquisaComponent implements OnInit{
   totalRegistros = 0;
   filtro = new PessoasFiltro();
   pessoas:any [] = [];
+  @ViewChild('tabela') grid:any;
 
-  constructor(private PessoasService: PessoasService){}
+  constructor(
+    private PessoasService: PessoasService,
+    private MessageService: MessageService,
+    private ConfirmationService: ConfirmationService,
+    private ErrorHandler: ErrorHandlerService
+    ){}
 
   ngOnInit() {
     this.pesquisar()
@@ -28,7 +35,7 @@ export class PessoaPesquisaComponent implements OnInit{
       .then((resultado) => {
         console.log(resultado)
         this.totalRegistros = resultado.total
-        this.pessoas = resultado.lancamentos;
+        this.pessoas = resultado.pessoas;
       })
 
   };
@@ -38,4 +45,35 @@ export class PessoaPesquisaComponent implements OnInit{
     this.pesquisar(pagina);
   }
 
+  confirmExclusao(pessoa: any){
+    this.PessoasService.excluir(pessoa.codigo)
+    .then(() => {
+      if(this.grid.first === 0){
+        this.pesquisar()
+      }else{
+        this.grid.reset();
+      }
+      this.MessageService.add({ severity: 'success', summary: 'Sucesso!', detail: 'registro excluido com sucesso' });
+    }).catch((error) => this.ErrorHandler.handle(error))
+  }
+
+  excluir(pessoa: any){
+    this.ConfirmationService.confirm({
+      message: 'Tem certeja que deseja excluir?',
+      accept: () => {
+        this.confirmExclusao(pessoa)
+      }
+    });
+
+  }
+
+  mudarStatus(pessoa: any){
+    this.PessoasService.mudarStatus(pessoa.codigo, pessoa.ativo)
+      .then(() =>{
+        this.MessageService.add({ severity: 'success', summary: 'Sucesso!', detail: 'Status Alterado com sucesso' });
+        console.log(this.grid.first)
+        console.log(this.grid.rows)
+        this.pesquisar(this.filtro.pagina)
+      })
+  }
 }

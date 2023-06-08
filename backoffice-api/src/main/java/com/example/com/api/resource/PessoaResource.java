@@ -1,5 +1,6 @@
 package com.example.com.api.resource;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -76,6 +77,12 @@ public class PessoaResource {
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_PESSOA')")
 	public Page<Pessoa> pesquisar(@RequestParam(required = false, defaultValue = "") String nome, Pageable pageable) {
 		return pessoaRepository.findByNomeContaining(nome, pageable);
+	}
+
+	@GetMapping("/listar")
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_PESSOA')")
+	public List<Pessoa> listarPessoa() {
+		return pessoaRepository.findAll();
 	}
 
 

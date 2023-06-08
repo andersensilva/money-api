@@ -63,7 +63,7 @@ public class LancamentoResource {
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('ROLE_CADASTRAR_CATEGORIA') and hasAuthority('SCOPE_write')")
+    @PreAuthorize("hasAuthority('ROLE_CADASTRAR_CATEGORIA')")
     public ResponseEntity<Lancamento> criar(
             @Valid @RequestBody Lancamento lancamento,
             HttpServletResponse response

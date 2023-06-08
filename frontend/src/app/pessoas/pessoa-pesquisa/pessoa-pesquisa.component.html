@@ -18,7 +18,7 @@
         emptyMessage="Nenhuma pessoa encontrada"
         [paginator]="true" [rows]="filtro.itensPorPagina"
         [lazy]="true" [totalRecords]="totalRegistros"
-        (onLazyLoad)="aoMudarPagina($event)">>
+        (onLazyLoad)="aoMudarPagina($event)" #tabela >
         <ng-template pTemplate="header">
             <tr>
                 <th>Nome</th>
@@ -46,13 +46,13 @@
                 <td class="col-data">
                   <span class="p-column-title">Status</span>
                     <a  [pTooltip]="pessoas.ativo ? 'Desativar' : 'Ativar'"
-                      tooltipPosition="top">
+                      tooltipPosition="top" (click)="mudarStatus(pessoas)">
                       {{pessoas.ativo ? 'Ativo' : 'Inativo' }}
                   </a>
                 </td>
                 <td class="col-acoes">
                   <a pButton icon="pi pi-pencil" pTooltip="Editar" tooltipPosition="top"></a>
-                  <button pButton icon="pi pi-trash"  pTooltip="Excluir" tooltipPosition="top"></button>
+                  <button pButton icon="pi pi-trash"  pTooltip="Excluir" tooltipPosition="top" (click)="excluir(pessoas)"></button>
                 </td>
             </tr>
         </ng-template>
