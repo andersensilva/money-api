@@ -2,13 +2,15 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  oauthTokenUrl = 'http://localhost:8082/oauth/token';
+  oauthTokenUrl: string;
+  tokensRonekeUrl : string;
   jwtPayload: any;
 
   constructor(
@@ -16,6 +18,8 @@ export class AuthService {
     private jwtHelper: JwtHelperService
     ) {
       this.carregarToken()
+      this.oauthTokenUrl = `${environment.apiUrl}/oauth/token`
+      this.tokensRonekeUrl = `${environment.apiUrl}/tokens/revoke`
     }
 
   login(usuario: string, senha: string): Promise<void>{
@@ -72,10 +76,10 @@ export class AuthService {
       .toPromise()
       .then((resposta: any) => {
         this.armazenarToken(resposta['access_token']);
-        console.log('Novo access token criado.');
+        console.info('Novo access token criado.');
         return Promise.resolve(null);
       }).catch(resposta => {
-        console.log('Erro ao renovar token.', resposta);
+        console.error('Erro ao renovar token.', resposta);
         return Promise.resolve(null);
       })
    }
@@ -95,5 +99,17 @@ export class AuthService {
     return false
    }
 
+   limparAccessToken(){
+    localStorage.removeItem('token');
+    this.jwtPayload = null;
+   }
+
+   logout(){
+    return this.http.delete(this.tokensRonekeUrl, {withCredentials: true})
+      .toPromise()
+      .then(() => {
+        this.limparAccessToken()
+      })
+   }
 
 }

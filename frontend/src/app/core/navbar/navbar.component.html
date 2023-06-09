@@ -8,11 +8,9 @@
 
     <ul class="navbar-menu" [hidden] ="!exibindoMenu" >
       <li class="navbar-usuario">{{ usuarioLogado }}</li>
-      <li class="navbar-menuitem" routerLinkActive="ativo"><a routerLink="lancamentos">Lancamentos</a>
-
-      </li>
-      <li class="navbar-menuitem" routerLinkActive="ativo"><a routerLink="pessoas">Pessoas</a></li>
-      <li class="navbar-menuitem" ><a href="#">Loggout</a></li>
+      <li class="navbar-menuitem" *ngIf="temPermissao('ROLE_PESQUISAR_LANCAMENTO')" routerLinkActive="ativo"><a routerLink="lancamentos">Lancamentos</a> </li>
+      <li class="navbar-menuitem" *ngIf="temPermissao('ROLE_PESQUISAR_PESSOA')" routerLinkActive="ativo"><a routerLink="pessoas">Pessoas</a></li>
+      <li class="navbar-menuitem" ><a href="#" (click)="logout()">Loggout</a></li>
     </ul>
   </div>
 </nav>

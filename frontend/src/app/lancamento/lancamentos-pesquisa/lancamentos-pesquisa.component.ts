@@ -76,5 +76,9 @@ export class LancamentosPesquisaComponent implements OnInit {
 
   }
 
+  naoTemPermissao(permissao: string) {
+    return !this.auth.temPermissao(permissao);
+  }
+
 
 }

@@ -60,15 +60,15 @@
                     <span [style.color]="lancamento.tipo === 'DESPESA' ? 'red' : 'blue'">{{lancamento.valor | number: '1.2-2'}} </span>
                   </td>
                   <td class="col-acoes">
-                      <a pButton icon="pi pi-pencil" pTooltip="Editar" [routerLink]="['/lancamentos', lancamento.codigo]" tooltipPosition="top"></a>
-                      <button pButton icon="pi pi-trash"  pTooltip="Excluir" tooltipPosition="top" (click)="excluir(lancamento)"></button>
+                      <a pButton icon="pi pi-pencil" *ngIf="!naoTemPermissao('ROLE_CADASTRAR_LANCAMENTO')" pTooltip="Editar" [routerLink]="['/lancamentos', lancamento.codigo]" tooltipPosition="top"></a>
+                      <button pButton icon="pi pi-trash" [disabled]="naoTemPermissao('ROLE_REMOVER_LANCAMENTO')"  pTooltip="Excluir" tooltipPosition="top" (click)="excluir(lancamento)"></button>
                   </td>
               </tr>
           </ng-template>
         </p-table>
       </div>
       <div class="col-12">
-        <a pButton label="Novo Lancamento" routerLink="/lancamentos/new"></a>
+        <a pButton label="Novo Lancamento" *ngIf="!naoTemPermissao('ROLE_CADASTRAR_LANCAMENTO')" routerLink="/lancamentos/new"></a>
       </div>
 
     </div>
