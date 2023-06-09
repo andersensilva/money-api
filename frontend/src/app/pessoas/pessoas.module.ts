@@ -10,6 +10,7 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
+import { PessoasRoutingModule } from './pessoas-routing.module';
 
 
 
@@ -20,8 +21,6 @@ import { ButtonModule } from 'primeng/button';
     PessoaPesquisaComponent,
   ],
   exports:[
-    PessoaCadastroComponent,
-    PessoaPesquisaComponent,
   ],
   imports: [
     CommonModule,
@@ -34,6 +33,7 @@ import { ButtonModule } from 'primeng/button';
     InputMaskModule,
 
     SharedModule,
+    PessoasRoutingModule
   ]
 })
 export class PessoasModule { }

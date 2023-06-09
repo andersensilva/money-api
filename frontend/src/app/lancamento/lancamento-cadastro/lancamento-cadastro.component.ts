@@ -9,6 +9,7 @@ import { ErrorHandlerService } from 'src/app/core/error-handler.service';
 import { CategoriasService } from './../../categorias/categorias.service';
 import { PessoasService } from 'src/app/pessoas/pessoas.service';
 import { Lancamento } from 'src/app/core/model';
+import { Title } from '@angular/platform-browser';
 
 
 
@@ -40,7 +41,8 @@ export class LancamentoCadastroComponent implements OnInit {
     private LancamentoService: LancamentoService,
     private messageService: MessageService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private title: Title
   ) { }
 
   tipos=[
@@ -53,11 +55,9 @@ export class LancamentoCadastroComponent implements OnInit {
   pessoas: any [] = [];
   lancamento = new Lancamento()
 
-  get editando() {
-    return Boolean(this.lancamento.codigo)
-  }
-
   ngOnInit() {
+    this.title.setTitle('Novo lançamento');
+
     const codigoLancamento = this.route.snapshot.params['codigo'];
     if(codigoLancamento){
       this.buscarPorCodigo()
@@ -106,7 +106,7 @@ export class LancamentoCadastroComponent implements OnInit {
     this.LancamentoService.edit(this.route.snapshot.params['codigo'])
       .then(lancamentos => {
         this.lancamento = lancamentos as Lancamento
-
+        this.atualizaTitle();
       })
   }
 
@@ -117,6 +117,7 @@ export class LancamentoCadastroComponent implements OnInit {
       // lancamentoForm.reset();
       // this.lancamento = new Lancamento
       this.router.navigate(['/lancamentos'])
+      this.atualizaTitle();
     }).catch(error => this.errorHandler.handle(error))
   }
 
@@ -127,5 +128,9 @@ export class LancamentoCadastroComponent implements OnInit {
     }, 1);
 
     this.router.navigate(['/lancamentos/new'])
+  }
+
+  atualizaTitle(){
+    this.title.setTitle(`Ediçao de lancamento: ${this.lancamento.descricao}`);
   }
 }

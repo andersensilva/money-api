@@ -17,7 +17,7 @@ export class LancamentoService {
 
   lancamentoUrl = 'http://localhost:8082/lancamento'
 
-  token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODYyMDc4MjQsInVzZXJfbmFtZSI6ImFkbWluQGFsZ2Ftb25leS5jb20iLCJhdXRob3JpdGllcyI6WyJST0xFX0NBREFTVFJBUl9DQVRFR09SSUEiLCJST0xFX1BFU1FVSVNBUl9QRVNTT0EiLCJST0xFX1JFTU9WRVJfUEVTU09BIiwiUk9MRV9DQURBU1RSQVJfTEFOQ0FNRU5UTyIsIlJPTEVfUEVTUVVJU0FSX0xBTkNBTUVOVE8iLCJST0xFX1JFTU9WRVJfTEFOQ0FNRU5UTyIsIlJPTEVfQ0FEQVNUUkFSX1BFU1NPQSIsIlJPTEVfUEVTUVVJU0FSX0NBVEVHT1JJQSJdLCJqdGkiOiJJbFJhNzZUdnkzS1ZlN0trZ1RrTHZTcVU2OXMiLCJjbGllbnRfaWQiOiJhbmd1bGFyIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.1GIxcHKhidPY2G22JpEzRtBKxbVBGjhWUwkv4xmEmVU'
+  //token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODYyNzA5MTIsInVzZXJfbmFtZSI6ImFkbWluQGFsZ2Ftb25leS5jb20iLCJhdXRob3JpdGllcyI6WyJST0xFX0NBREFTVFJBUl9DQVRFR09SSUEiLCJST0xFX1BFU1FVSVNBUl9QRVNTT0EiLCJST0xFX1JFTU9WRVJfUEVTU09BIiwiUk9MRV9DQURBU1RSQVJfTEFOQ0FNRU5UTyIsIlJPTEVfUEVTUVVJU0FSX0xBTkNBTUVOVE8iLCJST0xFX1JFTU9WRVJfTEFOQ0FNRU5UTyIsIlJPTEVfQ0FEQVNUUkFSX1BFU1NPQSIsIlJPTEVfUEVTUVVJU0FSX0NBVEVHT1JJQSJdLCJqdGkiOiJIalhrb3hBR3BSaGRBblAyX1ljNGNidmoxV2MiLCJjbGllbnRfaWQiOiJhbmd1bGFyIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.DjfyX-2Dj9XuCa7Ur5eJGBXp4p6vftCvD3zMndlD8Dg'
 
   constructor(private http: HttpClient) { }
 
@@ -28,8 +28,8 @@ export class LancamentoService {
 
     params = params.set('size', filtro.itensPorPagina)
 
-    const headers = new HttpHeaders()
-      .append('Authorization', `${this.token}`);
+    // const headers = new HttpHeaders()
+    //   .append('Authorization', `${this.token}`);
 
     if(filtro.descricao){
       params = params.set('descricao', filtro.descricao);
@@ -43,7 +43,7 @@ export class LancamentoService {
         params = params.set('dataVencimentoAte', format(filtro.dataVencimentoFim, 'yyyy-MM-dd')!);
     }
     return firstValueFrom(
-      this.http.get(`${this.lancamentoUrl}?resumo`, { headers, params })
+      this.http.get(`${this.lancamentoUrl}?resumo`, {params })
     ).then((response: any) => {
       const responseJson = response['content'];
       const lancamentos = responseJson;
@@ -58,17 +58,16 @@ export class LancamentoService {
    }
 
    excluir(codigo: number): Promise<void>{
-    const headers = new HttpHeaders()
-    .append('Authorization', `${this.token}`);
+    // const headers = new HttpHeaders()
+    // .append('Authorization', `${this.token}`);
 
-    return this.http.delete(`${this.lancamentoUrl}/${codigo}`, {headers})
+    return this.http.delete(`${this.lancamentoUrl}/${codigo}`)
       .toPromise()
       .then(() => null);
    }
 
    adicionar(lancamento: Lancamento): Promise<any> {
     const headers = new HttpHeaders()
-    .append('Authorization', `${this.token}`)
     .append('Content-Type', 'application/json');
 
     return this.http.post(this.lancamentoUrl,
@@ -78,11 +77,8 @@ export class LancamentoService {
   }
 
   edit(codigo: number): Promise<any>{
-    const headers = new HttpHeaders()
-    .append('Authorization', `${this.token}`);
-
     return firstValueFrom(
-      this.http.get(`${this.lancamentoUrl}/${codigo}`, { headers })
+      this.http.get(`${this.lancamentoUrl}/${codigo}`)
     ).then(response => {
       const lancamento = response as Lancamento
 
@@ -94,7 +90,6 @@ export class LancamentoService {
 
   atualiza(lancamento: Lancamento): Promise<any>{
     const headers = new HttpHeaders()
-    .append('Authorization', `${this.token}`)
     .append('Content-Type', 'application/json');
 
     return this.http.put(`${this.lancamentoUrl}/${lancamento.codigo}`,

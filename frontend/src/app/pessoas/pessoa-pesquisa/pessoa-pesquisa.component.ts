@@ -3,6 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { PessoasFiltro } from '../pessoas.service';
 import { ConfirmationService, LazyLoadEvent, MessageService } from 'primeng/api';
 import { ErrorHandlerService } from 'src/app/core/error-handler.service';
+import { Title } from '@angular/platform-browser';
 
 
 @Component({
@@ -21,10 +22,12 @@ export class PessoaPesquisaComponent implements OnInit{
     private PessoasService: PessoasService,
     private MessageService: MessageService,
     private ConfirmationService: ConfirmationService,
-    private ErrorHandler: ErrorHandlerService
+    private ErrorHandler: ErrorHandlerService,
+    private title: Title
     ){}
 
   ngOnInit() {
+    this.title.setTitle("Pesquisa de pessoas")
     this.pesquisar()
    }
 
@@ -71,8 +74,6 @@ export class PessoaPesquisaComponent implements OnInit{
     this.PessoasService.mudarStatus(pessoa.codigo, pessoa.ativo)
       .then(() =>{
         this.MessageService.add({ severity: 'success', summary: 'Sucesso!', detail: 'Status Alterado com sucesso' });
-        console.log(this.grid.first)
-        console.log(this.grid.rows)
         this.pesquisar(this.filtro.pagina)
       })
   }

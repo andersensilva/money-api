@@ -10,20 +10,9 @@ import { LancamentoModule } from './lancamento/lancamento.module';
 import { PessoasModule } from './pessoas/pessoas.module';
 import { CoreModule } from './core/core.module';
 import { HttpClientModule } from '@angular/common/http';
-import { LancamentoCadastroComponent } from './lancamento/lancamento-cadastro/lancamento-cadastro.component';
-import { LancamentosPesquisaComponent } from './lancamento/lancamentos-pesquisa/lancamentos-pesquisa.component';
-import { PessoaPesquisaComponent } from './pessoas/pessoa-pesquisa/pessoa-pesquisa.component';
-import { PessoaCadastroComponent } from './pessoas/pessoa-cadastro/pessoa-cadastro.component';
+import { AppRoutingModule } from './app-routing.module';
+import { SegurancaModule } from './seguranca/seguranca.module';
 
-
-
-const routes: Routes = [
-  {path: 'lancamentos', component: LancamentosPesquisaComponent},
-  {path: 'lancamentos/new', component: LancamentoCadastroComponent},
-  {path: 'lancamentos/:codigo', component: LancamentoCadastroComponent},
-  {path: 'pessoas', component: PessoaPesquisaComponent},
-  {path: 'pessoas/new', component: PessoaCadastroComponent}
-]
 
 
 @NgModule({
@@ -34,11 +23,11 @@ const routes: Routes = [
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    RouterModule.forRoot(routes),
 
     LancamentoModule,
     PessoasModule,
-
+    SegurancaModule,
+    AppRoutingModule,
     CoreModule
   ],
   providers: [

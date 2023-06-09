@@ -51,12 +51,15 @@
                   </a>
                 </td>
                 <td class="col-acoes">
-                  <a pButton icon="pi pi-pencil" pTooltip="Editar" tooltipPosition="top"></a>
+                  <a pButton icon="pi pi-pencil" pTooltip="Editar" [routerLink]="['/pessoas', pessoas.codigo]" tooltipPosition="top"></a>
                   <button pButton icon="pi pi-trash"  pTooltip="Excluir" tooltipPosition="top" (click)="excluir(pessoas)"></button>
                 </td>
             </tr>
         </ng-template>
       </p-table>
+    </div>
+    <div class="col-12">
+      <a pButton label="Nova Pessoa" routerLink="/pessoas/new"></a>
     </div>
   </div>
 </div>

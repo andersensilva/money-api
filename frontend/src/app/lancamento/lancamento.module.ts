@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { LancamentoCadastroComponent } from './lancamento-cadastro/lancamento-cadastro.component';
 import { LancamentosPesquisaComponent } from './lancamentos-pesquisa/lancamentos-pesquisa.component';
+import { LancamentoRoutingModule } from './lancamento-routing.module';
 import { SharedModule } from '../shared/shared.module';
 
 import { TableModule } from 'primeng/table';
@@ -15,7 +16,8 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { RouterModule } from '@angular/router';
+
+
 
 
 
@@ -26,13 +28,11 @@ import { RouterModule } from '@angular/router';
     LancamentosPesquisaComponent,
   ],
   exports:[
-    LancamentoCadastroComponent,
-    LancamentosPesquisaComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule,
+
 
     InputTextModule,
     ButtonModule,
@@ -45,7 +45,7 @@ import { RouterModule } from '@angular/router';
     InputNumberModule,
 
     SharedModule,
-
+    LancamentoRoutingModule
 
   ]
 })
