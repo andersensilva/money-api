@@ -7,6 +7,7 @@ import com.example.com.api.repository.PessoaRepository;
 import com.example.com.api.service.exception.PessoaInexistenteOuInativaException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -19,6 +20,11 @@ public class LancamentoService {
 
     @Autowired
     private LancamentoRepository lancamentoRepository;
+
+    @Scheduled(fixedDelay = 1000 * 5)
+    public void avisarSobreLancamentosVencidos(){
+
+    }
 
     public Lancamento salva(Lancamento lancamento){
         Pessoa pessoa = pessoaRepository.findById(lancamento.getPessoa().getCodigo()).get();

@@ -1,5 +1,7 @@
 package com.example.com.api.resource;
 
+import com.example.com.api.dto.LancamentoEstatisticaCategoria;
+import com.example.com.api.dto.LancamentoEstatisticaDia;
 import com.example.com.api.event.RecursoCriadoEvent;
 import com.example.com.api.exceptionHandler.MoneyExceptionHandler;
 import com.example.com.api.model.Lancamento;
@@ -22,6 +24,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import com.example.com.api.exceptionHandler.MoneyExceptionHandler.Erro;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
@@ -41,6 +44,18 @@ public class LancamentoResource {
     @Autowired
     private MessageSource messageSource;
 
+    @GetMapping("/estatistica/por-dia")
+    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA')")
+    public List<LancamentoEstatisticaDia> porDia() {
+        return this.lancamentoRepository.porDia((LocalDate.now()));
+    }
+
+    @GetMapping("/estatistica/por-categoria")
+    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA')")
+    public List<LancamentoEstatisticaCategoria> porCategoria() {
+        return this.lancamentoRepository.porCategoria((LocalDate.now()));
+    }
+
     @GetMapping
     @PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA')")
     public Page<Lancamento> pesquisar(LancamentoFilter lancamentoFilter, Pageable pageable) {
@@ -49,7 +64,7 @@ public class LancamentoResource {
     }
 
     @GetMapping(params = "resumo")
-    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA')")
+    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA') ")
     public Page<ResumoLancamento> resumir(LancamentoFilter lancamentoFilter, Pageable pageable) {
 
         return lancamentoRepository.resumir(lancamentoFilter, pageable);

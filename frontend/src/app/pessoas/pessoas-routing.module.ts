@@ -6,9 +6,9 @@ import { AuthGuard } from '../seguranca/auth.guard';
 
 
 const routes: Routes = [
-  {path: 'pessoas', component: PessoaPesquisaComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_PESQUISAR_PESSOA'] }},
-  {path: 'pessoas/new', component: PessoaCadastroComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_CADASTRAR_PESSOA'] }},
-  {path: 'pessoas/:codigo', component: PessoaCadastroComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_CADASTRAR_PESSOA'] }},
+  {path: '', component: PessoaPesquisaComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_PESQUISAR_PESSOA'] }},
+  {path: 'new', component: PessoaCadastroComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_CADASTRAR_PESSOA'] }},
+  {path: ':codigo', component: PessoaCadastroComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_CADASTRAR_PESSOA'] }},
 ]
 
 @NgModule({

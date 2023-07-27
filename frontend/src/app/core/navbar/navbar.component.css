@@ -45,3 +45,8 @@
 .navbar-menuitem.ativo {
   background-color: #494541;
 }
+
+
+.navbar-menu{
+  left: 0;
+}

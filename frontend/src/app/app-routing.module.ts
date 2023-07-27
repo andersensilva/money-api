@@ -1,3 +1,4 @@
+import { LancamentoModule } from './lancamento/lancamento.module';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -10,6 +11,8 @@ import { NaoAutorizadoComponent } from './core/nao-autorizado/nao-autorizado.com
 
 
 const routes: Routes = [
+  { path: 'lancamentos', loadChildren: () => import('../app/lancamento/lancamento.module').then(m => m.LancamentoModule) },
+  { path: 'pessoas', loadChildren: () => import('../app/pessoas/pessoas.module').then(m => m.PessoasModule) },
   {path: '', redirectTo: 'lancamentos', pathMatch: 'full'},
   {path: 'pagina-nao-encontrada', component: PaginaNaoEncontradaComponent},
   {path: 'nao-autorizado', component: NaoAutorizadoComponent},
